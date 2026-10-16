@@ -43,6 +43,7 @@ st.markdown("""
         --lf-line: rgba(177, 198, 224, 0.14);
         --lf-ink: #f1f5f9;
         --lf-muted: #94a3b8;
+        --lf-card-padding: 20px;
         --lf-green: #10b981;
         --lf-red: #ef4444;
         --lf-amber: #f59e0b;
@@ -72,15 +73,21 @@ st.markdown("""
         border-right: 1px solid var(--lf-line);
     }
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 { color: var(--lf-ink); }
-    [data-testid="stMultiSelect"] [data-baseweb="tag"] { background: #123d37; }
+    [data-testid="stMultiSelect"] [data-baseweb="tag"] {
+        background: #1b2b3e !important;
+        border: 1px solid rgba(177, 198, 224, 0.18);
+        color: #cbd5e1 !important;
+    }
+    [data-testid="stMultiSelect"] [data-baseweb="tag"] * { color: #cbd5e1 !important; }
     input, textarea, [data-baseweb="select"] > div { border-color: var(--lf-line) !important; }
 
     .metric-card {
+        box-sizing: border-box;
         height: 100%;
         background: linear-gradient(145deg, rgba(23, 42, 65, 0.86), rgba(15, 23, 42, 0.94));
         border: 1px solid var(--lf-line);
         border-radius: 10px;
-        padding: 18px 20px;
+        padding: var(--lf-card-padding);
         box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
         backdrop-filter: blur(16px);
     }
@@ -152,7 +159,7 @@ st.markdown("""
     .nav-links a, .hero-actions a { color:#aebdd0; text-decoration:none; font-size:.82rem; font-weight:650; }
     .nav-links a:hover { color:#f1f5f9; }
     .nav-links .nav-cta, .hero-actions .button-primary { color:#06231c; background:var(--lf-green); border:1px solid var(--lf-green); border-radius:7px; padding:10px 14px; }
-    .hero-grid { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr); align-items:center; gap:clamp(28px,5vw,72px); padding:58px 0 52px; }
+    .stApp [data-testid="stHorizontalBlock"]:has(.hero-title) { align-items:center; gap:clamp(28px,5vw,72px); padding:42px 0 48px; }
     .eyebrow, .section-kicker { color:#6ce1b6; font:700 .66rem/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing:.12em; text-transform:uppercase; }
     .eyebrow { display:flex; align-items:center; gap:9px; }
     .eyebrow-dot { width:7px; height:7px; border-radius:50%; background:var(--lf-green); box-shadow:0 0 14px rgba(16,185,129,.7); }
@@ -182,15 +189,22 @@ st.markdown("""
     .section-heading { margin:8px 0 7px; color:#f1f5f9; font-size:1.8rem; line-height:1.2; font-weight:740; }
     .section-intro { max-width:720px; margin:0; color:#9aadc3; font-size:.92rem; line-height:1.7; }
     .exposure-layout { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr); gap:14px; margin-top:17px; }
-    .exposure-panel { padding:21px; }
+    .exposure-panel { padding:var(--lf-card-padding); }
     .exposure-panel h3 { margin:0 0 13px; font-size:.88rem; }
     .exposure-big { color:#f3f6fa; font-size:1.08rem; line-height:1.65; }
     .exposure-big strong { color:#6ce1b6; font-variant-numeric:tabular-nums; }
-    .loss-track { height:8px; margin:18px 0 8px; background:rgba(148,163,184,.15); border-radius:99px; overflow:hidden; }
-    .loss-track span { display:block; height:100%; background:linear-gradient(90deg,#ef4444,#f97366); border-radius:inherit; }
-    .loss-foot { display:flex; justify-content:space-between; gap:10px; color:#91a3b8; font: .61rem ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .revenue-track { display:flex; height:10px; margin:18px 0 9px; background:rgba(148,163,184,.15); border-radius:99px; overflow:hidden; }
+    .revenue-realized { display:block; height:100%; background:var(--lf-green); }
+    .revenue-unrealized { display:block; height:100%; background:var(--lf-red); }
+    .revenue-legend { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 16px; color:#aab9cb; font:.65rem/1.45 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .revenue-legend span { display:flex; align-items:center; gap:7px; min-width:0; }
+    .revenue-swatch { flex:0 0 8px; width:8px; height:8px; border-radius:2px; }
+    .revenue-swatch.realized { background:var(--lf-green); }
+    .revenue-swatch.unrealized { background:var(--lf-red); }
     .exposure-side { display:grid; gap:12px; }
-    .exposure-side .metric-card { padding:17px 18px; }
+    .exposure-side .metric-card { padding:var(--lf-card-padding); }
+    .exposure-side .metric-title { color:#a8b8cc; text-transform:none; letter-spacing:0; font-size:.82rem; }
+    .exposure-side .metric-sub { color:var(--lf-muted) !important; }
     .module-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:19px; }
     .module-card { min-width:0; min-height:125px; padding:15px; background:linear-gradient(145deg,rgba(22,40,62,.88),rgba(14,25,43,.9)); border:1px solid var(--lf-line); border-radius:8px; }
     .module-number { color:#63d9b0; font: .63rem ui-monospace, SFMono-Regular, Consolas, monospace; }
@@ -203,8 +217,36 @@ st.markdown("""
     .science-foot { margin-top:12px; color:#91a5bb; font: .62rem ui-monospace, SFMono-Regular, Consolas, monospace; }
     .site-footer { display:flex; justify-content:space-between; gap:18px; padding:20px 0 8px; border-top:1px solid var(--lf-line); color:#9aadc3; font-size:.75rem; }
     .site-footer strong { color:#b8c6d5; }
-    @media (max-width: 850px) {
-        .hero-grid { grid-template-columns:minmax(0,1fr); padding-top:40px; }
+    @media (max-width: 1100px) {
+        .stApp [data-testid="stHorizontalBlock"]:has(.hero-title),
+        .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) {
+            flex-direction:column !important;
+            align-items:stretch !important;
+            gap:18px !important;
+        }
+        .stApp [data-testid="stHorizontalBlock"]:has(.hero-title) > [data-testid="stColumn"],
+        .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) > [data-testid="stColumn"] {
+            width:100% !important;
+            min-width:0 !important;
+            flex:1 1 auto !important;
+        }
+        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)) {
+            display:grid !important;
+            grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+            column-gap:10px !important;
+            row-gap:26px !important;
+        }
+        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)) > [data-testid="stColumn"] {
+            width:auto !important;
+            min-width:0 !important;
+            flex:initial !important;
+        }
+        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)) .metric-card {
+            height:auto;
+        }
+        .nav-links { gap:12px; }
+        .nav-links a:not(.nav-cta) { display:none; }
+        .nav-links .nav-cta { white-space:nowrap; }
         .preview-panel { max-width:620px; }
         .module-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
@@ -216,7 +258,6 @@ st.markdown("""
         .nav-links a:not(.nav-cta) { display:none; }
         .brand-lockup { min-width:0; font-size:.8rem; }
         .brand-edition { font-size:.64rem; }
-        .hero-grid { gap:24px; padding:34px 0 35px; }
         .hero-title { font-size:2.4rem; }
         .preview-panel { padding:15px; }
         .exposure-layout { grid-template-columns:minmax(0,1fr); }
@@ -750,6 +791,7 @@ with st.sidebar:
         d0 = d1 = dr
     all_regions = sorted(FACT.region.unique())
     regions = st.multiselect("Region", all_regions, default=all_regions)
+    st.caption(f"{len(regions)} regions selected")
     m_opts = [-3000, -100, -50, -25, 0, 10, 25, 50, 100]
     mlo, mhi = st.select_slider("Order-line margin % range", options=m_opts, value=(m_opts[0], m_opts[-1]),
                                 format_func=lambda v: f"{v}%",
@@ -782,6 +824,7 @@ GAIN_NOW, BY_PROD = reprice_whatif(F, TM / 100, VL / 100)
 
 failure_pct = K["failed_orders"] / max(K["orders"], 1) * 100
 lost_pct = max(0, min(100, (K["booked"] - K["realized"]) / max(K["booked"], 1) * 100))
+realized_pct = 100 - lost_pct
 preview_metrics = [
     ("Booked revenue", money(K["booked"]), ""),
     ("Realized revenue", money(K["realized"]), ""),
@@ -803,7 +846,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="hero-grid">', unsafe_allow_html=True)
 hero_copy, preview_col = st.columns([1.08, 0.92], gap="large", vertical_alignment="center")
 with hero_copy:
     st.markdown(
@@ -829,8 +871,6 @@ with preview_col:
         '<div class="preview-foot"><span>Live dataset &bull; filters apply</span><span>Evidence over estimates</span></div></section>',
         unsafe_allow_html=True,
     )
-st.markdown('</div>', unsafe_allow_html=True)
-
 if FILTERED:
     st.markdown('<div class="note">Filters are active, so figures can differ from the full-dataset totals.</div>', unsafe_allow_html=True)
 
@@ -846,23 +886,25 @@ exposure_metrics[1].markdown(metric_card("Realized revenue", money(K["realized"]
 exposure_metrics[2].markdown(metric_card("Unrecovered leaks", money(K["net_leak"]), "Cancelled + returned + pending", "text-alert"), unsafe_allow_html=True)
 exposure_metrics[3].markdown(metric_card("Below-cost pricing loss", f"-{money(K['price_loss'])}", "Completed order margin lost", "text-alert"), unsafe_allow_html=True)
 
-exposure_left, exposure_right = st.columns([1.25, 0.75], gap="small")
+exposure_left, exposure_right = st.columns([3, 1], gap="small")
 with exposure_left:
     st.markdown(
-        '<div class="exposure-panel"><div class="section-kicker">Revenue bridge</div>'
+        '<div class="exposure-panel"><div class="metric-title">Revenue bridge</div>'
         f'<h3>{money(K["booked"])} booked. {money(K["realized"])} realized.</h3>'
         '<div class="exposure-big">The distance between them deserves a closer look.</div>'
-        f'<div class="loss-track"><span style="width:{lost_pct:.1f}%"></span></div>'
-        f'<div class="loss-foot"><span>{lost_pct:.1f}% not realized</span><span>Booked to realized</span></div></div>',
+        f'<div class="revenue-track" role="img" aria-label="Revenue composition: {money(K["realized"])} realized of {money(K["booked"])} booked; {money(K["net_leak"])} not realized">'
+        f'<span class="revenue-realized" style="width:{realized_pct:.1f}%" aria-hidden="true"></span>'
+        f'<span class="revenue-unrealized" style="width:{lost_pct:.1f}%" aria-hidden="true"></span></div>'
+        f'<div class="revenue-legend"><span><i class="revenue-swatch realized"></i>Realized {money(K["realized"])} ({realized_pct:.1f}%)</span>'
+        f'<span><i class="revenue-swatch unrealized"></i>Not realized {money(K["net_leak"])} ({lost_pct:.1f}%)</span></div></div>',
         unsafe_allow_html=True,
     )
 with exposure_right:
     st.markdown(
-        metric_card("Below-cost catalog", f"{N_BELOW} / {len(PRODUCTS)}", "Products priced below unit cost", "text-alert"),
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        metric_card("Cash sitting in limbo", money(K["stuck_value"]), f"Pending orders over {STALE_DAYS} days", "text-warning"),
+        '<div class="exposure-side">'
+        + metric_card("Below-cost catalog", f"{N_BELOW} / {len(PRODUCTS)}", "Products priced below unit cost", "")
+        + metric_card("Cash sitting in limbo", money(K["stuck_value"]), f"Pending orders over {STALE_DAYS} days", "")
+        + '</div>',
         unsafe_allow_html=True,
     )
 

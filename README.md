@@ -16,6 +16,10 @@ The dashboard works with the supplied CSV files, explains how it reaches its fin
 
 ![LeakFinder Command Center](screenshots/leakfinder-command-center.png)
 
+### Exposure and revenue bridge
+
+![LeakFinder exposure view](screenshots/leakfinder-exposure.png)
+
 ### Mobile view
 
 ![LeakFinder mobile view](screenshots/leakfinder-mobile.png)
@@ -92,8 +96,8 @@ gen_deck_json.py        Builds presentation data from the analysis engine
 deck.json               Generated presentation content
 build_deck.js           Builds a PowerPoint from deck.json
 screenshots/            Current app screenshots used in this README and deck
-LeakFinder_Round1_Final.pptx
-                        Presentation with the app screenshots appended
+LeakFinder_Round1_Final_updated.pptx
+                        Presentation with refreshed app screenshots appended
 requirements.txt        Python dependencies for the app
 ```
 
@@ -101,7 +105,7 @@ The `models/analysis.pkl` file is a generated cache, not an input. The analysis 
 
 ## Build the Presentation
 
-The presentation with the app screenshots is available here: [LeakFinder_Round1_Final.pptx](LeakFinder_Round1_Final.pptx).
+The refreshed presentation with the app screenshots is available here: [LeakFinder_Round1_Final_updated.pptx](LeakFinder_Round1_Final_updated.pptx). The original deck remains unchanged.
 
 To rebuild the original data-driven presentation, install Node.js and the `pptxgenjs` package, then run:
 
