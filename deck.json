@@ -1,0 +1,367 @@
+{
+ "meta": {
+  "title": "LeakFinder",
+  "event": "Datathon 2026",
+  "track": "Business: The Money Leak",
+  "team": "[Team name]"
+ },
+ "slides": [
+  {
+   "id": 1,
+   "type": "title",
+   "title": "LeakFinder",
+   "subtitle": "Finds where a business loses money, proves it, and says what to fix first",
+   "meta": "Track 4: Business | The Money Leak | Datathon 2026 | [Team name: members + reg no]"
+  },
+  {
+   "id": 2,
+   "type": "bullets_cards",
+   "title": "The Problem",
+   "subtitle": "Sales look healthy. Profit does not.",
+   "cards": [
+    {
+     "head": "Who",
+     "body": [
+      "Business owners and retail managers",
+      "Category and operations managers"
+     ]
+    },
+    {
+     "head": "Pain",
+     "body": [
+      "10.16M booked, only 7.91M realized",
+      "17.2% of revenue is cancelled or returned",
+      "Realized margin is just 32.6%"
+     ]
+    },
+    {
+     "head": "Gap today",
+     "body": [
+      "Signals sit in 5 separate tables",
+      "Dashboards show sales, not causes",
+      "Managers cannot tell real leaks from noise"
+     ]
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "type": "stats_chart",
+   "title": "What the Data Says",
+   "subtitle": "18,000 orders, 250 products, 3,000 customers, 1,200 campaigns",
+   "stats": [
+    {
+     "label": "Products priced below cost",
+     "value": "76 of 250"
+    },
+    {
+     "label": "Lost on below-cost sales",
+     "value": "-1.05M"
+    },
+    {
+     "label": "Cancelled + returned revenue",
+     "value": "1.75M"
+    },
+    {
+     "label": "Marketing spend vs realized margin",
+     "value": "1.9x"
+    }
+   ],
+   "chart": {
+    "type": "bar",
+    "title": "Money leaks (revenue or margin at stake)",
+    "labels": [
+     "Sold below cost",
+     "Cancelled",
+     "Returned",
+     "Stuck pending 30d+"
+    ],
+    "values": [
+     1051931,
+     931264,
+     819650,
+     452276
+    ]
+   }
+  },
+  {
+   "id": 4,
+   "type": "usp",
+   "title": "Our Solution and USP",
+   "usp": "The only tool that separates real leaks from noise: every alert comes with proof, a confidence level, and a ranked action.",
+   "cards": [
+    {
+     "head": "What it does",
+     "body": [
+      "Finds each leak in revenue, price, stock and ads",
+      "Ranks fixes by money at stake",
+      "Explains why each item is flagged"
+     ]
+    },
+    {
+     "head": "Why it is different",
+     "body": [
+      "Tests 10 possible drivers; says 'noise' when it is noise",
+      "Refuses to sell a fake risk score",
+      "All ML written from scratch, scored on future data"
+     ]
+    },
+    {
+     "head": "Who uses it",
+     "body": [
+      "Manager opens Command Center",
+      "Sees top 5 actions with impact",
+      "Downloads repricing list and action plan"
+     ]
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "type": "mvp",
+   "title": "MVP: What Works Today",
+   "subtitle": "Built and running on the provided data",
+   "steps": [
+    {
+     "n": "1",
+     "head": "Data",
+     "body": "5 tables joined. 18,000 orders checked. 7 data issues found and documented."
+    },
+    {
+     "n": "2",
+     "head": "Models",
+     "body": "From-scratch logistic, random forest, gradient boosting, KMeans, robust anomaly alerts, regression forecast."
+    },
+    {
+     "n": "3",
+     "head": "App",
+     "body": "8 tabs: Command Center, Investigate, Pricing, Stock, Campaigns, Forecast, ML Lab, Action Plan."
+    }
+   ],
+   "demo": "Demo path (60s): Command Center > pricing leak > what-if reprice > Investigate shows 'no real driver' > campaigns > action plan"
+  },
+  {
+   "id": 6,
+   "type": "chart_insights",
+   "title": "The Biggest Leak: Price Below Cost",
+   "subtitle": "Not customers. Not channels. The price list.",
+   "chart": {
+    "type": "bar",
+    "title": "Loss on below-cost completed orders, by category",
+    "labels": [
+     "Beauty",
+     "Grocery",
+     "Home",
+     "Electronics",
+     "Sports",
+     "Fashion"
+    ],
+    "values": [
+     284510.0,
+     221484.0,
+     156137.0,
+     154134.0,
+     136454.0,
+     121587.0
+    ]
+   },
+   "insights": [
+    {
+     "head": "Loss",
+     "body": "1.05M lost on completed orders because list price is under unit cost"
+    },
+    {
+     "head": "Concentrated",
+     "body": "The 20 worst products cause 49% of the loss: fix these first"
+    },
+    {
+     "head": "Not discounts",
+     "body": "Discounts add only 22K extra loss; unit_price already includes discount"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "type": "table",
+   "title": "Honest ML: Failed Orders Are Not Predictable Here",
+   "subtitle": "Time-aware test: train Jan-Sep, test Oct-Dec on unseen orders",
+   "table": {
+    "columns": [
+     "Model (from scratch)",
+     "AUC",
+     "Accuracy",
+     "Always-'no' baseline",
+     "Top-decile lift"
+    ],
+    "rows": [
+     [
+      "Logistic Regression (scratch)",
+      "0.501",
+      "0.829",
+      "0.829",
+      "1.02"
+     ],
+     [
+      "Random Forest (scratch)",
+      "0.503",
+      "0.829",
+      "0.829",
+      "1.00"
+     ],
+     [
+      "Gradient Boosting (scratch)",
+      "0.524",
+      "0.829",
+      "0.829",
+      "1.05"
+     ]
+    ]
+   },
+   "takeaway": "AUC near 0.50 means a coin flip. No category, region, channel, segment, discount or time group fails more than chance explains (0 of 10 drivers real). We report this instead of a fake risk score. Fix: record cancel/return reasons."
+  },
+  {
+   "id": 8,
+   "type": "bullets_cards",
+   "title": "Technical Approach",
+   "subtitle": "From-scratch ML, validated and explained",
+   "cards": [
+    {
+     "head": "Pipeline",
+     "body": [
+      "Join 5 tables; unit_price already net of discount",
+      "Completed = realized; cancelled/returned = not",
+      "Time-aware split; robust (median/MAD) alerts"
+     ]
+    },
+    {
+     "head": "Models (NumPy, written by us)",
+     "body": [
+      "Logistic, random forest, gradient boosting",
+      "KMeans customer segments (4)",
+      "Trend + seasonality regression forecast"
+     ]
+    },
+    {
+     "head": "Explainability",
+     "body": [
+      "Every flag shows evidence + p-value",
+      "Stock risk = stock, demand, restock time",
+      "Confidence label on every action"
+     ]
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "type": "actions",
+   "title": "Action Plan",
+   "subtitle": "Ranked by money at stake and how sure we are",
+   "table": {
+    "columns": [
+     "#",
+     "Action",
+     "Impact (up to)",
+     "Confidence"
+    ],
+    "rows": [
+     [
+      "1",
+      "Reprice the products that are sold below cost",
+      "1.62M",
+      "High"
+     ],
+     [
+      "2",
+      "Clear stuck pending orders",
+      "370K",
+      "Medium"
+     ],
+     [
+      "3",
+      "Audit campaign tracking, then cut spend with above-benchmark cost per conversion",
+      "1.38M",
+      "Low"
+     ],
+     [
+      "4",
+      "Cut cancellations and returns on healthy products, and start recording reasons",
+      "124K",
+      "Low"
+     ],
+     [
+      "5",
+      "Fix inventory flags and reorder the products that will run out",
+      "9,620",
+      "Medium"
+     ]
+    ]
+   },
+   "takeaway": "Impacts overlap and are upper bounds. Do not add them up."
+  },
+  {
+   "id": 10,
+   "type": "bullets_cards",
+   "title": "Data Quality and Assumptions",
+   "subtitle": "Documented before recommending anything",
+   "cards": [
+    {
+     "head": "Issues found",
+     "body": [
+      "76 products have list price below cost",
+      "171 impossible campaign rows (clicks > impressions or conversions > clicks)",
+      "Stockout flag disagrees with stock level"
+     ]
+    },
+    {
+     "head": "Assumptions",
+     "body": [
+      "Discount already inside unit_price",
+      "Cancelled/returned revenue not realized",
+      "Pending older than 30 days = stuck",
+      "Currency not stated"
+     ]
+    },
+    {
+     "head": "Limits",
+     "body": [
+      "Synthetic data: no real-world causes claimed",
+      "Spend does not predict conversions (r = -0.01)",
+      "Costs need finance confirmation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "type": "bullets_cards",
+   "title": "Impact, Deployment and Round 2",
+   "subtitle": "Ships as one public link",
+   "cards": [
+    {
+     "head": "Impact",
+     "body": [
+      "Repricing: up to 1.62M margin gain",
+      "Stuck orders: 370K recoverable",
+      "Marketing: audit tracking, test budget moves"
+     ]
+    },
+    {
+     "head": "Deployment",
+     "body": [
+      "Streamlit app on a public URL",
+      "Repo with README and from-scratch ML",
+      "Swap in new CSVs to refresh"
+     ]
+    },
+    {
+     "head": "By 4 PM",
+     "body": [
+      "Polish UI and rehearse 60s demo",
+      "Final checks on every number",
+      "Submit repo + model details"
+     ]
+    }
+   ]
+  }
+ ]
+}
