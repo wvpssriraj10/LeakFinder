@@ -217,9 +217,34 @@ st.markdown("""
     .science-foot { margin-top:12px; color:#91a5bb; font: .62rem ui-monospace, SFMono-Regular, Consolas, monospace; }
     .site-footer { display:flex; justify-content:space-between; gap:18px; padding:20px 0 8px; border-top:1px solid var(--lf-line); color:#9aadc3; font-size:.75rem; }
     .site-footer strong { color:#b8c6d5; }
+    .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)):has(.metric-card) {
+        display:grid !important;
+        grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+        gap:16px !important;
+    }
+    .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)):has(.metric-card) > [data-testid="stColumn"] {
+        width:auto !important;
+        min-width:0 !important;
+        flex:initial !important;
+    }
+    .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) {
+        display:grid !important;
+        grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+        column-gap:16px !important;
+        align-items:stretch;
+        margin-top:16px !important;
+    }
+    .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) > [data-testid="stColumn"] {
+        width:auto !important;
+        min-width:0 !important;
+        flex:initial !important;
+    }
+    .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) > [data-testid="stColumn"]:first-child { grid-column:1 / span 3; }
+    .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) > [data-testid="stColumn"]:last-child { grid-column:4; }
     @media (max-width: 1100px) {
         .stApp [data-testid="stHorizontalBlock"]:has(.hero-title),
         .stApp [data-testid="stHorizontalBlock"]:has(.exposure-panel) {
+            display:flex !important;
             flex-direction:column !important;
             align-items:stretch !important;
             gap:18px !important;
@@ -229,14 +254,15 @@ st.markdown("""
             width:100% !important;
             min-width:0 !important;
             flex:1 1 auto !important;
+            grid-column:auto !important;
         }
-        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)) {
+        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)):has(.metric-card) {
             display:grid !important;
             grid-template-columns:repeat(2,minmax(0,1fr)) !important;
             column-gap:10px !important;
             row-gap:26px !important;
         }
-        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)) > [data-testid="stColumn"] {
+        .stApp [data-testid="stHorizontalBlock"]:has(> [data-testid="stColumn"]:nth-child(4)):has(.metric-card) > [data-testid="stColumn"] {
             width:auto !important;
             min-width:0 !important;
             flex:initial !important;
