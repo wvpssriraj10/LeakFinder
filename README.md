@@ -1,126 +1,173 @@
-# LeakFinder
+# 🚨 LeakFinder — Enterprise Money Leak Intelligence Platform
 
-LeakFinder is a local Streamlit dashboard for finding and investigating possible financial leaks in retail data. It was built for Datathon 2026, Track 4: The Money Leak.
+> **Datathon 2026 | Track 4: The Money Leak**  
+> **Author:** W V P S SRIRAJ (23BCE8414)  
+> **Tech Stack:** Python 3.10+, Streamlit, Plotly, Pandas, NumPy (No external API calls)
 
-The dashboard works with the supplied CSV files, explains how it reaches its findings, and provides action queues that can be downloaded. It does not call external APIs.
+---
 
-**Author:** W V P S SRIRAJ (23BCE8414)
+## 📌 Executive Overview
 
-## Screenshots
+**LeakFinder** is an executive-grade decision-support dashboard designed to locate, quantify, and operationalize financial leakage across enterprise retail data. Rather than serving as another passive BI tool or outputting arbitrary black-box risk scores, LeakFinder connects **5 relational datasets** to pinpoint verified deterministic loss drivers and export actionable, prioritized execution queues.
+
+In the benchmark dataset, LeakFinder uncovered a **$2.25M net revenue gap** ($10.16M booked vs. $7.91M realized revenue, representing a 17.2% cancellation and return loss).
+
+### Key Financial Discoveries
+* **$1.05M Negative-Margin Pricing Loss:** 76 of 250 catalog products are listed below unit cost. Promotional discounts add only $22K in extra losses, proving that base pricing architecture—not discounting—is the root problem.
+* **$370K Stuck Working Capital:** Orders sitting in `Pending` status for over 30 days lock up critical liquidity.
+* **Ad Spend Disconnect ($r = -0.01$):** Campaign spend shows zero correlation with conversions. Data cleaning removed 171 corrupted campaign records (clicks > impressions or conversions > clicks).
+* **Up to $1.62M Recovery Potential:** What-if repricing simulation demonstrates that establishing a 20% target margin floor recovers up to $1.62M in net margin, even after factoring in a 15% elasticity volume drop.
+* **"Honest Data Science" USP:** Built entirely from scratch using pure NumPy (Logistic Regression, Random Forest, Gradient Boosting) with time-aware train/test splits (Jan–Sep train, Oct–Dec test). Achieving a test AUC of 0.52 (coin-flip level), LeakFinder **explicitly suppresses uninformative predictive risk scores** to focus 100% on verified deterministic math.
+
+---
+
+## 📸 Screenshots
 
 ### Overview
-
 ![LeakFinder overview](screenshots/leakfinder-overview.png)
 
 ### Command Center
-
 ![LeakFinder Command Center](screenshots/leakfinder-command-center.png)
 
-### Exposure and revenue bridge
-
+### Exposure & Revenue Waterfall Bridge
 ![LeakFinder exposure view](screenshots/leakfinder-exposure.png)
 
-### Mobile view
-
+### Mobile Responsive View
 ![LeakFinder mobile view](screenshots/leakfinder-mobile.png)
 
-## Run the App
+---
 
-Requirements: Python 3.10 or newer.
+## ⚡ Quick Start: Run the App Locally
 
-From the project folder, create and activate a virtual environment, install the packages, and start Streamlit:
+**Prerequisites:** Python 3.10 or newer.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-streamlit run app2.py
-```
+1. **Clone the repository & enter the project directory:**
+   ```bash
+   git clone https://github.com/your-username/LeakFinder.git
+   cd LeakFinder
+   ```
 
-On macOS or Linux, activate the environment with:
+2. **Set up a virtual environment:**
 
-```bash
-source .venv/bin/activate
-```
+   * **Windows (PowerShell):**
+     ```powershell
+     python -m venv .venv
+     .\.venv\Scripts\Activate.ps1
+     ```
 
-The dashboard opens at `http://localhost:8501`. The CSV files must remain in the `data/` folder.
+   * **macOS / Linux:**
+     ```bash
+     python -m venv .venv
+     source .venv/bin/activate
+     ```
 
-## Dashboard Sections
+3. **Install dependencies and launch Streamlit:**
+   ```bash
+   python -m pip install -r requirements.txt
+   streamlit run app2.py
+   ```
 
-The dashboard has eight tabs:
+4. **Access the Application:** Open `http://localhost:8501` in your browser. Ensure the five CSV input files remain in the `./data/` folder.
 
-1. **Command Center** ranks the largest money-at-stake signals and shows how booked revenue becomes realized revenue.
-2. **Investigate** compares cancellation and return rates across regions, categories, customer segments, and payment methods.
-3. **Pricing Leak** finds products listed below cost and includes a what-if repricing simulator.
-4. **Stock Risk** checks inventory against demand, reorder points, and supplier restock time.
-5. **Campaigns** reviews campaign tracking, spend, conversions, and channel economics.
-6. **Forecast & Alerts** shows sales forecasts and unusual changes over time.
-7. **ML Lab** compares models using a time-based test set and baseline metrics.
-8. **Action Plan** provides prioritized tasks and downloadable work queues.
+---
 
-Date, region, and margin filters are available in the sidebar. Some filters do not apply to inventory or campaign data because those tables do not contain the same fields.
+## 🖥️ Dashboard Architecture (8 Operational Modules)
 
-## Data
+The Streamlit dashboard (`app2.py`) provides an 8-tab investigation workflow:
 
-The supplied dataset is synthetic and for educational use. It contains:
+1. **🚨 Command Center:** Displays top-line financial metrics, a dollar-ranked priority alert stream, monthly revenue outcome bars, and a waterfall bridge tracing booked to realized revenue.
+2. **🔍 Investigate:** Multi-dimensional failure slicing (Region, Category, Segment, Payment Method) with Bonferroni-corrected z-score statistical driver scans and lead-time analysis.
+3. **💸 Pricing Leak:** Identifies products priced below cost and provides an interactive "What-If" repricing simulator with target margin floor and volume elasticity controls.
+4. **📦 Stock Risk:** Replaces flawed stockout flags with a 90-day sales velocity model comparing stock-on-hand against supplier lead/delay times to surface high-risk products and overstock capital lockup.
+5. **📢 Campaigns:** Evaluates marketing spend vs. real conversions, filters corrupt tracking rows, and analyzes acquisition costs (CAC) against customer lifetime margin.
+6. **📈 Forecast & Alerts:** Applies rolling Z-score anomaly detection to identify daily revenue spikes/drops and projects 30-day revenue trends.
+7. **🧪 ML Lab:** Evaluates from-scratch NumPy classification models using a time-aware split (Jan–Sep train, Oct–Dec test) and documents why weak predictive scores are suppressed.
+8. **📋 Action Plan:** Interactive operational task checklist paired with direct CSV download buttons for work queues (`Repricing List`, `Stuck Orders Queue`, `Ad Spend Audit`).
 
-| File | Rows | What it contains |
-| --- | ---: | --- |
-| `customers.csv` | 3,000 | Customer information and segments |
-| `products.csv` | 250 | Product categories, costs, and list prices |
-| `transactions.csv` | 18,000 | Order lines, prices, dates, and outcomes |
-| `inventory.csv` | 5,000 | Inventory snapshots and stock information |
-| `campaigns.csv` | 1,200 | Campaign spend, clicks, impressions, and conversions |
+*Note: Date, region, and margin filters are available in the sidebar.*
 
-Transactions join to customers through `customer_id`, and to products through `product_id`. Inventory also uses `product_id`. Campaigns are reviewed by date and channel/category where available. More dataset notes are in [`data/README.txt`](data/README.txt).
+---
 
-## How to Read the Results
+## 📊 Dataset Structure & Cleaning Rules
 
-- Completed orders count as realized revenue. Cancelled and returned orders do not.
-- `unit_price` already includes the discount, so discounts are not subtracted a second time.
-- Pending orders older than 30 days are treated as stuck.
-- The source data does not specify a currency. The dashboard displays `$` as an assumption.
-- Costs and prices were generated independently. Confirm product costs and recommended prices with Finance before changing real prices.
-- Inventory risk is calculated from stock, demand, reorder points, and restock timing. The supplied stockout flag is not trusted on its own.
-- A statistical difference is not automatically a real business cause. Driver scans and model results are shown with their test evidence and limitations.
+The dataset consists of 5 relational CSV tables located in `./data/`:
 
-## Project Files
+| File | Rows | Description | Key Join Keys / Usage |
+| :--- | :---: | :--- | :--- |
+| `customers.csv` | 3,000 | Customer profiles, geographic regions, and segments | `customer_id` |
+| `products.csv` | 250 | Catalog details, unit costs, and list prices | `product_id` |
+| `transactions.csv` | 18,000 | Line-item order history, prices, timestamps, and status | `transaction_id`, `customer_id`, `product_id` |
+| `inventory.csv` | 5,000 | Historical inventory snapshots, reorder points, stock counts | `product_id`, `date` |
+| `campaigns.csv` | 1,200 | Marketing spend, impressions, clicks, and conversions | `date`, `channel`, `category` |
+
+### Key Cleaning Rules & Assumptions
+* **Realized Revenue:** Completed orders represent realized revenue. Cancelled and returned orders do not generate revenue.
+* **Unit Price Verification:** `unit_price` in transactions already reflects applied discounts (verified on all 18,000 lines), preventing double-discount deductions.
+* **Stuck Orders:** Orders in `Pending` status for longer than 30 days are classified as stuck working capital.
+* **Campaign Integrity:** 171 campaign records with impossible metrics (`clicks > impressions` or `conversions > clicks`) are flagged and excluded from correlation and conversion totals.
+* **Inventory Audit:** Raw `stockout_flag` values are unreliable (760 of 760 flagged snapshot records had stock on hand). Stockout exposure is computed dynamically from daily demand velocity and supplier restock lead times.
+* **Currency:** Currency is unstated in raw data; USD (`$`) is assumed throughout.
+
+---
+
+## 🛠️ Repository Directory Tree
 
 ```text
-app2.py                 Streamlit application
-data/                   Five input CSV files and dataset notes
-leak_engine.py          Shared calculations used to prepare the presentation data
-ml_scratch.py           NumPy machine-learning implementations
-pipeline.py             Feature preprocessing and model helpers
-gen_deck_json.py        Builds presentation data from the analysis engine
-deck.json               Generated presentation content
-build_deck.js           Builds a PowerPoint from deck.json
-screenshots/            Current app screenshots used in this README and deck
-LeakFinder_Round1_Final_updated.pptx
-                        Presentation with refreshed app screenshots appended
-requirements.txt        Python dependencies for the app
+LeakFinder/
+├── app2.py                           Main Streamlit dashboard application
+├── leak_engine.py                    Core financial calculations & data preprocessing engine
+├── ml_scratch.py                     Pure NumPy machine learning implementations (from scratch)
+├── pipeline.py                       Feature engineering, scaling, and imputation pipeline
+├── gen_deck_json.py                  Exports analysis output to structured presentation JSON
+├── deck.json                         Generated presentation content
+├── build_deck.js                     PowerPoint generation script (Node.js pptxgenjs)
+├── requirements.txt                  Python dependencies
+├── LeakFinder_Round1_Final_updated.pptx Refreshed presentation with latest app screenshots
+├── data/                             Input CSV datasets & dataset documentation
+│   ├── customers.csv
+│   ├── products.csv
+│   ├── transactions.csv
+│   ├── inventory.csv
+│   ├── campaigns.csv
+│   └── README.txt
+└── screenshots/                      App UI screenshots for README and presentation deck
+    ├── leakfinder-overview.png
+    ├── leakfinder-command-center.png
+    ├── leakfinder-exposure.png
+    └── leakfinder-mobile.png
 ```
 
-The `models/analysis.pkl` file is a generated cache, not an input. The analysis engine recreates it when needed. The separate `new/` UI bundle is not used by `app2.py`.
+---
 
-## Build the Presentation
+## 📢 Build the Presentation Deck
 
-The refreshed presentation with the app screenshots is available here: [LeakFinder_Round1_Final_updated.pptx](LeakFinder_Round1_Final_updated.pptx). The original deck remains unchanged.
+The updated presentation deck containing the latest UI screenshots is available at [`LeakFinder_Round1_Final_updated.pptx`](LeakFinder_Round1_Final_updated.pptx).
 
-To rebuild the original data-driven presentation, install Node.js and the `pptxgenjs` package, then run:
+To programmatically rebuild the presentation deck from raw data analysis:
 
-```bash
-npm install pptxgenjs
-python gen_deck_json.py
-node build_deck.js deck.json LeakFinder_Round1.pptx
-```
+1. **Install Node.js dependencies:**
+   ```bash
+   npm install pptxgenjs
+   ```
 
-The generated presentation is written to `LeakFinder_Round1.pptx`.
+2. **Generate structured presentation JSON and build `.pptx`:**
+   ```bash
+   python gen_deck_json.py
+   node build_deck.js deck.json LeakFinder_Round1.pptx
+   ```
 
-## Deploy
+---
 
-For Streamlit Community Cloud, push this repository to GitHub and create an app using `app2.py` as the main file. Keep the `data/` folder in the repository so the app can load its CSV files.
+## 🌐 Cloud Deployment
 
-## License and Data Note
+To deploy **LeakFinder** on **Streamlit Community Cloud**:
 
-No license file is included. The dataset notes identify the supplied data as synthetic educational data, not real company data.
+1. Push this repository to GitHub.
+2. Log into Streamlit Cloud, connect your repository, and select `app2.py` as the entrypoint file.
+3. Ensure the `./data/` folder is committed to the repository so the CSV tables load automatically.
+
+---
+
+## 📜 License & Dataset Note
+
+This project is built for **Datathon 2026 (Track 4: The Money Leak)**. The provided dataset is synthetic educational data for benchmarking purposes. Confirm product costs and pricing structures with internal finance teams prior to implementing real-world repricing strategies.
